@@ -103,12 +103,16 @@ class ProspectoController extends Controller
      */
     public function show($id)
     {
+        if(Auth::check()){
         $prospecto=DB::table('prospectos')->
         leftjoin('estados','estados.id_estados','=','prospectos.estatus')->
         leftjoin('documentos','documentos.id_pro_doc','=','prospectos.id_prospecto')->
         select('nombre_prospecto','primer_apellido','segundo_apellido','calle','numero',
         'colonia','cp','telefono','rfc','estado','observaciones','ine','comprobante_pago','acta_nacimiento')->where('id_prospecto',$id)->get();
         return Response::json($prospecto,200);
+    }else{
+      return ([Response::HTTP_Unauthorized,401]);
+    }
     }
 
     /**
@@ -131,11 +135,15 @@ class ProspectoController extends Controller
      */
     public function update(Request $request, $id)
     {
+       if(Auth::check()){
        $prospecto=Prospecto::find($id);
        $prospecto->observaciones=$request->observaciones;
        $prospecto->estatus=$request->estatus;
        $prospecto->update();
        return Response::json($prospecto,204);
+       }else{
+         return ([Response::HTTP_Unauthorized,401]);
+       }
     }
 
     /**

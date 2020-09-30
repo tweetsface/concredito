@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Response;
+use App\Prospecto;
+use App\Documento;
+use App\Promotor;
+use Auth;
 
 class PromotorController extends Controller
 {
